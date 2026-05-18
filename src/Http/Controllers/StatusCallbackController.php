@@ -25,9 +25,9 @@ class StatusCallbackController extends Controller
 
         $this->ensureSignatureIsValid($requestBody, $signature, $publicKey);
 
-        event(new TransactionStatusUpdated($request->get('body')));
+        event(new TransactionStatusUpdated($request->input('body')));
 
-        return $request->get('body');
+        return $request->input('body');
     }
 
     /**
