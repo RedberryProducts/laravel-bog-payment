@@ -1,6 +1,5 @@
 {
     "name": "redberryproducts/laravel-bog-payment",
-    "version": "2.0.0-dev",
     "description": "This is my package bog-payment",
     "keywords": [
         "redberryproducts",
