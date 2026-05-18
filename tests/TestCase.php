@@ -27,6 +27,11 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
+        config()->set('bog-payment.callback_url', 'https://example.com/callback');
+        config()->set('bog-payment.redirect_urls', [
+            'success' => 'https://example.com/success',
+            'fail' => 'https://example.com/fail',
+        ]);
 
         /*
         $migration = include __DIR__.'/../database/migrations/create_bog-payment_table.php.stub';
