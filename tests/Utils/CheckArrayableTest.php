@@ -2,7 +2,7 @@
 
 use RedberryProducts\LaravelBogPayment\Traits\Utils\Arrayable;
 
-class ArrayableDummy implements \ArrayAccess
+class ArrayableDummy implements ArrayAccess
 {
     use Arrayable;
 

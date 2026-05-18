@@ -12,7 +12,7 @@ it('throws an exception if authentication fails', function () {
         'https://oauth2.bog.ge/auth/realms/bog/protocol/openid-connect/token' => Http::response([], 401),
     ]);
 
-    $this->expectException(\Exception::class);
+    $this->expectException(Exception::class);
     $this->expectExceptionMessage('Authentication failed with Bank of Georgia.');
 
     // Call the method and assert the exception
@@ -47,7 +47,7 @@ it('throws an exception on failed POST request', function () {
         config('bog-payment.base_url').'*' => Http::response([], 500),
     ]);
 
-    $this->expectException(\Exception::class);
+    $this->expectException(Exception::class);
     $this->expectExceptionMessage('API request failed with Bank of Georgia.');
 
     $this->apiClient->post('/payments', ['amount' => 100]);
@@ -81,7 +81,7 @@ it('throws an exception on failed GET request', function () {
         'https://api.bog.ge/transactions' => Http::response([], 500),
     ]);
 
-    $this->expectException(\Exception::class);
+    $this->expectException(Exception::class);
     $this->expectExceptionMessage('API request failed with Bank of Georgia.');
 
     $this->apiClient->get('/transactions', ['transaction_id' => 123]);

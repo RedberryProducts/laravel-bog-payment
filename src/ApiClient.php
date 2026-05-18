@@ -3,6 +3,7 @@
 namespace RedberryProducts\LaravelBogPayment;
 
 use Exception;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -34,7 +35,7 @@ class ApiClient
     /**
      * Authenticate and retrieve the access token.
      *
-     * @throws RequestException|\Illuminate\Http\Client\ConnectionException
+     * @throws RequestException|ConnectionException
      */
     public function authenticate(): void
     {

@@ -3,9 +3,10 @@
 namespace RedberryProducts\LaravelBogPayment\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use RedberryProducts\LaravelBogPayment\BogPayment;
 
 /**
- * @see \RedberryProducts\LaravelBogPayment\BogPayment
+ * @see BogPayment
  */
 class Pay extends Facade
 {
