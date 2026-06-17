@@ -275,6 +275,71 @@ $transactionDetails = Transaction::get($order_id); // Returns array of transacti
 
 See example of the response [Official Documentation](https://api.bog.ge/docs/payments/standard-process/get-payment-details)
 
+## Refund Processing
+
+The package provides a convenient way to process refunds for completed transactions. You can process both full and partial refunds using the `Refund` facade.
+
+### Basic Refund Example
+
+To process a refund, use the `Refund` facade to specify the order ID and refund amount.
+For example, to process a refund for a transaction:
+
+```php
+use RedberryProducts\LaravelBogPayment\Facades\Refund;
+use App\Models\Transaction;
+
+// Step 1: Retrieve the transaction
+$transaction = Transaction::findOrFail($transactionId);
+
+// Step 2: Process full refund
+$refundResponse = Refund::orderId($transaction->transaction_id)
+    ->amount($transaction->amount)
+    ->process();
+
+// Step 3: Update transaction status
+if ($refundResponse['status'] === 'success') {
+    $transaction->update([
+        'status' => 'refunded',
+        'refunded_at' => now(),
+        'message' => 'Refund processed successfully',
+    ]);
+}
+```
+
+### Partial Refund Example
+
+To process a partial refund:
+
+```php
+use RedberryProducts\LaravelBogPayment\Facades\Refund;
+use App\Models\Transaction;
+
+// Step 1: Retrieve the transaction
+$transaction = Transaction::findOrFail($transactionId);
+
+// Step 2: Process partial refund (e.g., 50% of original amount)
+$partialAmount = $transaction->amount / 2;
+
+$refundResponse = Refund::orderId($transaction->transaction_id)
+    ->amount($partialAmount)
+    ->process();
+
+// Step 3: Update transaction with partial refund information
+if ($refundResponse['status'] === 'success') {
+    $transaction->update([
+        'refunded_amount' => ($transaction->refunded_amount ?? 0) + $partialAmount,
+        'status' => 'partially_refunded',
+    ]);
+}
+```
+
+### Notes
+
+- The `orderId` should be the `transaction ID` returned by the Bank of Georgia when the payment was processed, should look like this: `3b648c6b-fff-44dd-885a-6059091d3cce`.
+- The `amount` must be a positive decimal number representing the refund amount.
+- Both `orderId` and `amount` are required fields; omitting either will throw an exception.
+- You can process multiple partial refunds for the same transaction as long as the total refunded amount doesn't exceed the original transaction amount.
+
 
 ## Testing
 
